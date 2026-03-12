@@ -36,6 +36,7 @@ describe("Database", () => {
 
     const result = await db.read();
     expect(result.locations).toBeDefined();
+    expect(result.locations[0].country).toBe("GB");
   });
 
   it("should read database file", async () => {
@@ -59,6 +60,7 @@ describe("Database", () => {
 
     expect(result.locations).toHaveLength(1);
     expect(result.locations[0].name).toBe("Test Crag");
+    expect(result.locations[0].country).toBe("GB");
   });
 
   it("should write database file", async () => {
@@ -83,6 +85,7 @@ describe("Database", () => {
 
     expect(parsed.locations).toHaveLength(1);
     expect(parsed.locations[0].name).toBe("Test Crag");
+    expect(parsed.locations[0].country).toBe("GB");
   });
 });
 

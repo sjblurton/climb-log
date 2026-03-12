@@ -20,6 +20,7 @@ export class LocationRepository {
     const location = {
       id: `loc_${randomUUID()}`,
       name,
+      country: "GB" as const,
       created_at: now,
       updated_at: now,
     };

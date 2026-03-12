@@ -18,6 +18,7 @@ const locationResponseSchema = locationSchema.meta({
   example: {
     id: "loc_123",
     name: "The Depot Manchester",
+    country: "GB",
     created_at: "2026-03-12T10:00:00.000Z",
     updated_at: "2026-03-12T10:00:00.000Z",
   },
@@ -29,12 +30,14 @@ const locationsResponseSchema = locationsSchema.meta({
     {
       id: "loc_123",
       name: "The Depot Manchester",
+      country: "GB",
       created_at: "2026-03-12T10:00:00.000Z",
       updated_at: "2026-03-12T10:00:00.000Z",
     },
     {
       id: "loc_456",
       name: "The Climbing Hangar",
+      country: "GB",
       created_at: "2026-03-12T11:00:00.000Z",
       updated_at: "2026-03-12T11:30:00.000Z",
     },

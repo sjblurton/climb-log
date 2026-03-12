@@ -31,6 +31,7 @@ describe("Locations API", () => {
 
       expect(response.status).toBe(201);
       expect(response.body.name).toBe("The Depot Manchester");
+      expect(response.body.country).toBe("GB");
       expect(response.body.created_at).toBeDefined();
       expect(new Date(response.body.created_at).toString()).not.toBe(
         "Invalid Date",
@@ -75,6 +76,7 @@ describe("Locations API", () => {
       expect(Array.isArray(response.body)).toBe(true);
       expect(response.body.length).toBe(1);
       expect(response.body[0].name).toBe("Test Location");
+      expect(response.body[0].country).toBe("GB");
     });
   });
 
@@ -90,6 +92,7 @@ describe("Locations API", () => {
 
       expect(getResponse.status).toBe(200);
       expect(getResponse.body.name).toBe("Test Location");
+      expect(getResponse.body.country).toBe("GB");
       expect(getResponse.body.created_at).toBeDefined();
       expect(getResponse.body.updated_at).toBeDefined();
     });
@@ -131,6 +134,7 @@ describe("Locations API", () => {
 
       expect(updateResponse.status).toBe(200);
       expect(updateResponse.body.name).toBe("New Name");
+      expect(updateResponse.body.country).toBe("GB");
       expect(updateResponse.body.created_at).toBe(createdAt);
       expect(new Date(updateResponse.body.updated_at).toString()).not.toBe(
         "Invalid Date",
@@ -143,6 +147,7 @@ describe("Locations API", () => {
 
       expect(getResponse.status).toBe(200);
       expect(getResponse.body.name).toBe("New Name");
+      expect(getResponse.body.country).toBe("GB");
       expect(getResponse.body.created_at).toBe(createdAt);
       expect(getResponse.body.updated_at).toBe(updateResponse.body.updated_at);
     });
