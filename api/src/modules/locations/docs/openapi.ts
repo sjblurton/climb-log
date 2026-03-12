@@ -190,6 +190,29 @@ registry.registerPath({
   },
 });
 
+registry.registerPath({
+  method: "delete",
+  path: "/locations/{id}",
+  tags: ["Locations"],
+  summary: "Delete location",
+  request: {
+    params: idParamSchema,
+  },
+  responses: {
+    "204": {
+      description: "Location deleted",
+    },
+    "404": {
+      description: "Location not found",
+      content: {
+        "application/json": {
+          schema: errorResponseSchema,
+        },
+      },
+    },
+  },
+});
+
 const generator = new OpenApiGeneratorV3(registry.definitions);
 
 const locationOpenApiDocument = generator.generateDocument({

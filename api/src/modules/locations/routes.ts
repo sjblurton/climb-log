@@ -20,5 +20,6 @@ router.patch(
   validateBody(createUpdateLocationBodySchema),
   locationsController.updateLocation,
 );
+router.delete("/:id", locationsController.deleteLocation);
 
 export default router;

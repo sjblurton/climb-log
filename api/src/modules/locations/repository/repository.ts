@@ -49,4 +49,16 @@ export class LocationRepository {
     await this.database.write(db);
     return location;
   }
+
+  async deleteLocation(id: string) {
+    const db = await this.database.read();
+    const locationIndex = db.locations.findIndex((loc) => loc.id === id);
+
+    if (locationIndex === -1) {
+      throw new HttpError(404, LOCATION_NOT_FOUND_ERROR);
+    }
+
+    db.locations.splice(locationIndex, 1);
+    await this.database.write(db);
+  }
 }

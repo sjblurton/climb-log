@@ -148,4 +148,44 @@ describe("Locations API", () => {
       expect(response.body.message).toBe("Location not found");
     });
   });
+
+  describe("delete", () => {
+    it("should delete location", async () => {
+      const createResponse = await request(app)
+        .post("/locations")
+        .send({ name: "Delete Me" });
+
+      const locationId = createResponse.body.id;
+
+      const deleteResponse = await request(app).delete(
+        `/locations/${locationId}`,
+      );
+
+      expect(deleteResponse.status).toBe(204);
+
+      const getResponse = await request(app).get(`/locations/${locationId}`);
+      expect(getResponse.status).toBe(404);
+      expect(getResponse.body.message).toBe("Location not found");
+    });
+
+    it("should return 404 when deleting non-existent location", async () => {
+      const response = await request(app).delete("/locations/non-existent-id");
+
+      expect(response.status).toBe(404);
+      expect(response.body.message).toBe("Location not found");
+    });
+
+    it("should return a 404 for an array location id delete request", async () => {
+      const params = new URLSearchParams();
+      params.append("id", "loc_123");
+      params.append("id", "loc_456");
+
+      const response = await request(app).delete(
+        `/locations/${params.toString()}`,
+      );
+
+      expect(response.status).toBe(404);
+      expect(response.body.message).toBe("Location not found");
+    });
+  });
 });

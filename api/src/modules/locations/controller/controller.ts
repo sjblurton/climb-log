@@ -39,4 +39,13 @@ export class LocationsController {
 
     return res.json(location);
   }
+
+  public async deleteLocation(req: Request, res: Response) {
+    const { id } = idParamSchema.parse(req.params);
+
+    const locationService = new service.LocationService();
+    await locationService.deleteLocation(id);
+
+    return res.status(204).send();
+  }
 }

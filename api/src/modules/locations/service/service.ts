@@ -17,4 +17,8 @@ export class LocationService {
   async updateLocation(id: string, name: string) {
     return this.locationRepository.updateLocation(id, name);
   }
+
+  async deleteLocation(id: string) {
+    return this.locationRepository.deleteLocation(id);
+  }
 }
