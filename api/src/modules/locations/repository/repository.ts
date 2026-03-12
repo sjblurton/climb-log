@@ -1,11 +1,11 @@
 import { randomUUID } from "crypto";
-import { Database } from "../../../db/db";
+import { sharedDatabase } from "../../../db/db";
 import { HttpError } from "../../../middleware/errors/HttpError";
 
 const LOCATION_NOT_FOUND_ERROR = "Location not found";
 
 export class LocationRepository {
-  database = new Database();
+  database = sharedDatabase;
 
   async getAllLocations() {
     console.log("Reading locations from database");

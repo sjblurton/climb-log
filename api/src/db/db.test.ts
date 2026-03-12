@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { Database } from "./db";
+import { Database, getTestDbPath } from "./db";
 import fs from "fs/promises";
 import path from "path";
 
 describe("Database", () => {
-  const testDbPath = path.join(__dirname, "database.test.json");
+  const testDbPath = getTestDbPath();
   const testInitPath = path.join(__dirname, "database.init.json");
 
   beforeEach(() => {
@@ -67,6 +67,25 @@ describe("Database", () => {
 });
 
 describe("Test production path", () => {
+  it("getTestDbPath should return default test path when worker id is missing", () => {
+    const previousWorkerId = process.env["VITEST_WORKER_ID"];
+
+    delete process.env["VITEST_WORKER_ID"];
+
+    try {
+      const pathResult = getTestDbPath();
+      const expected = path.join(__dirname, "database.test.json");
+
+      expect(pathResult).toBe(expected);
+    } finally {
+      if (previousWorkerId === undefined) {
+        delete process.env["VITEST_WORKER_ID"];
+      } else {
+        process.env["VITEST_WORKER_ID"] = previousWorkerId;
+      }
+    }
+  });
+
   it("getDbPath should return production path when NODE_ENV is not test", () => {
     const db = new Database();
     process.env.NODE_ENV = "production";

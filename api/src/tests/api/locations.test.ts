@@ -2,10 +2,10 @@ import request from "supertest";
 import { describe, it, expect, beforeEach, afterAll } from "vitest";
 import app from "../../app";
 import fs from "fs";
-import path from "path";
+import { getTestDbPath } from "../../db/db";
 
 describe("Locations API", () => {
-  const dbPath = path.join(__dirname, "../../db/database.test.json");
+  const dbPath = getTestDbPath();
 
   beforeEach(async () => {
     const initData = {

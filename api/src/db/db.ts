@@ -6,11 +6,25 @@ const DB_PATH = path.join(__dirname, "database.json");
 const DB_PATH_TEST = path.join(__dirname, "database.test.json");
 const DB_PATH_INIT = path.join(__dirname, "database.init.json");
 
+const getWorkerScopedTestPath = () => {
+  const workerId = process.env["VITEST_WORKER_ID"];
+
+  if (!workerId) {
+    return DB_PATH_TEST;
+  }
+
+  return path.join(__dirname, `database.test.${workerId}.json`);
+};
+
+export const getTestDbPath = () => getWorkerScopedTestPath();
+
 export class Database {
   schema = new DatabaseSchema();
 
   private getDbPath() {
-    return process.env["NODE_ENV"] === "test" ? DB_PATH_TEST : DB_PATH;
+    return process.env["NODE_ENV"] === "test"
+      ? getWorkerScopedTestPath()
+      : DB_PATH;
   }
 
   private getDbPathForInit() {
@@ -48,3 +62,5 @@ export class Database {
     await fs.writeFile(this.getDbPath(), jsonString, "utf-8");
   }
 }
+
+export const sharedDatabase = new Database();
