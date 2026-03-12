@@ -1,5 +1,8 @@
 import { randomUUID } from "crypto";
-import { CreateUpdateCragBody } from "../../../db/schemas/crags/CragsSchema";
+import {
+  CreateCragBody,
+  UpdateCragBody,
+} from "../../../db/schemas/crags/CragsSchema";
 import { sharedDatabase } from "../../../db/db";
 import { HttpError } from "../../../middleware/errors/HttpError";
 
@@ -13,7 +16,7 @@ export class CragRepository {
     return db.crags;
   }
 
-  async createCrag(data: CreateUpdateCragBody) {
+  async createCrag(data: CreateCragBody) {
     const db = await this.database.read();
 
     const crag = {
@@ -41,7 +44,7 @@ export class CragRepository {
     return crag;
   }
 
-  async updateCrag(id: string, data: CreateUpdateCragBody) {
+  async updateCrag(id: string, data: UpdateCragBody) {
     const db = await this.database.read();
     const crag = db.crags.find((item) => item.id === id);
 
@@ -49,9 +52,11 @@ export class CragRepository {
       throw new HttpError(404, CRAG_NOT_FOUND_ERROR);
     }
 
-    crag.location_id = data.location_id;
-    crag.name = data.name;
-    crag.type = data.type;
+    const patchData = Object.fromEntries(
+      Object.entries(data).filter(([, value]) => value !== undefined),
+    ) as Partial<CreateCragBody>;
+
+    Object.assign(crag, patchData);
 
     await this.database.write(db);
     return crag;
