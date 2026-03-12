@@ -16,11 +16,17 @@ export const cragSchema = z.object({
   created_at: z.string(),
 });
 
-export const createUpdateCragBodySchema = cragSchema.omit({
+const cragBodySchema = cragSchema.omit({
   id: true,
   created_at: true,
 });
 
+export const createCragBodySchema = cragBodySchema;
+
+export const updateCragBodySchema = cragBodySchema.partial();
+
 export const cragsSchema = z.array(cragSchema);
 
-export type CreateUpdateCragBody = z.infer<typeof createUpdateCragBodySchema>;
+export type CreateCragBody = z.infer<typeof createCragBodySchema>;
+
+export type UpdateCragBody = z.infer<typeof updateCragBodySchema>;
