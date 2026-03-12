@@ -71,7 +71,16 @@ npm start
 - `GET /locations` - List all locations
 - `POST /locations` - Create a new location
 - `GET /locations/:id` - Get location by ID
-- `PUT /locations/:id` - Update location
+- `PATCH /locations/:id` - Update location
+- `DELETE /locations/:id` - Delete location
+
+### Crags
+
+- `GET /crags` - List all crags
+- `POST /crags` - Create a new crag
+- `GET /crags/:id` - Get crag by ID
+- `PATCH /crags/:id` - Update crag
+- `DELETE /crags/:id` - Delete crag
 
 ## Project Structure
 
