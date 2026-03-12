@@ -4,8 +4,10 @@ dist/
 .env
 .env.local
 .env.*.local
-coverage/
 .nyc_output/
 .vscode/settings.json
-src/db/database.json
-src/db/database.test*.json
+
+# API specific
+api/coverage/
+api/src/db/database.json
+api/src/db/database.test*.json
