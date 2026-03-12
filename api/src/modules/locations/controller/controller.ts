@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
 import * as service from "../service/service";
+import { idParamSchema } from "../../../db/schemas/global/params";
+import { CreateUpdateLocationBody } from "../../../db/schemas/locations/LocationsSchema";
+
+type IdParamRequest = Request<unknown, unknown, CreateUpdateLocationBody>;
 
 export class LocationsController {
   public async getLocations(_: Request, res: Response) {
@@ -8,7 +12,7 @@ export class LocationsController {
     res.json(locations);
   }
 
-  public async createLocation(req: Request, res: Response) {
+  public async createLocation(req: IdParamRequest, res: Response) {
     const { name } = req.body;
 
     const locationService = new service.LocationService();
@@ -18,11 +22,7 @@ export class LocationsController {
   }
 
   public async getLocationById(req: Request, res: Response) {
-    const { id } = req.params;
-
-    if (Array.isArray(id) || !id) {
-      return res.status(400).json({ message: "Invalid location ID" });
-    }
+    const { id } = idParamSchema.parse(req.params);
 
     const locationService = new service.LocationService();
     const location = await locationService.getLocationById(id);
@@ -30,13 +30,9 @@ export class LocationsController {
     return res.json(location);
   }
 
-  public async updateLocation(req: Request, res: Response) {
-    const { id } = req.params;
+  public async updateLocation(req: IdParamRequest, res: Response) {
+    const { id } = idParamSchema.parse(req.params);
     const { name } = req.body;
-
-    if (Array.isArray(id) || !id) {
-      return res.status(400).json({ message: "Invalid location ID" });
-    }
 
     const locationService = new service.LocationService();
     const location = await locationService.updateLocation(id, name);

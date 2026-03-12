@@ -5,21 +5,16 @@ import { DatabaseSchema } from "./schemas/DatabaseSchema";
 const DB_PATH = path.join(__dirname, "database.json");
 const DB_PATH_TEST = path.join(__dirname, "database.test.json");
 const DB_PATH_INIT = path.join(__dirname, "database.init.json");
-const DB_PATH_POPULATED = path.join(__dirname, "database.populated.json");
 
 export class Database {
   schema = new DatabaseSchema();
 
   private getDbPath() {
-    console.log("Environment:", process.env["NODE_ENV"]);
     return process.env["NODE_ENV"] === "test" ? DB_PATH_TEST : DB_PATH;
   }
 
   private getDbPathForInit() {
-    console.log("Environment:", process.env["NODE_ENV"]);
-    return process.env["NODE_ENV"] === "test"
-      ? DB_PATH_POPULATED
-      : DB_PATH_INIT;
+    return DB_PATH_INIT;
   }
 
   private async initialize() {

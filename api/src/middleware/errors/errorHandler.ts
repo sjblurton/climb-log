@@ -1,23 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import z, { ZodError } from "zod";
+import { HttpError } from "./HttpError";
 
-export class HttpError extends Error {
-  constructor(
-    public status: number,
-    message: string,
-  ) {
-    super(message);
-  }
-}
-
-export function errorHandler(
+export const errorHandler = (
   err: unknown,
   _req: Request,
   res: Response,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _next: NextFunction,
-): void {
-  console.log("ERROR HANDLER:", JSON.stringify(err, null, 2));
+): void => {
   if (err instanceof ZodError) {
     res.status(400).json({
       message: "Validation failed",
@@ -31,6 +22,5 @@ export function errorHandler(
     return;
   }
 
-  console.error(err);
   res.status(500).json({ message: "Internal Server Error" });
-}
+};

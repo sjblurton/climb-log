@@ -1,6 +1,6 @@
 import { randomUUID } from "crypto";
 import { Database } from "../../../db/db";
-import { HttpError } from "../../../middleware/errorHandler";
+import { HttpError } from "../../../middleware/errors/HttpError";
 
 const LOCATION_NOT_FOUND_ERROR = "Location not found";
 
@@ -40,9 +40,11 @@ export class LocationRepository {
   async updateLocation(id: string, name: string) {
     const db = await this.database.read();
     const location = db.locations.find((loc) => loc.id === id);
+
     if (!location) {
       throw new HttpError(404, LOCATION_NOT_FOUND_ERROR);
     }
+
     location.name = name;
     await this.database.write(db);
     return location;
