@@ -1,4 +1,8 @@
 import {
+  cragOpenApiPaths,
+  cragOpenApiSchemas,
+} from "../modules/crags/docs/openapi";
+import {
   locationOpenApiPaths,
   locationOpenApiSchemas,
 } from "../modules/locations/docs/openapi";
@@ -8,7 +12,7 @@ export const openApiDocument = {
   info: {
     title: "Climb Log API",
     version: "1.0.0",
-    description: "REST API for managing climbing locations.",
+    description: "REST API for managing climbing locations and crags.",
   },
   servers: [
     {
@@ -21,9 +25,19 @@ export const openApiDocument = {
       name: "Locations",
       description: "Manage climbing locations",
     },
+    {
+      name: "Crags",
+      description: "Manage climbing crags",
+    },
   ],
-  paths: locationOpenApiPaths,
+  paths: {
+    ...locationOpenApiPaths,
+    ...cragOpenApiPaths,
+  },
   components: {
-    schemas: locationOpenApiSchemas,
+    schemas: {
+      ...locationOpenApiSchemas,
+      ...cragOpenApiSchemas,
+    },
   },
 } as const;
