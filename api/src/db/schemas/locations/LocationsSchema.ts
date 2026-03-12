@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const NAME_ERROR = "Name is required";
 
-const locationSchema = z.object({
+export const locationSchema = z.object({
   id: z.string(),
   name: z.string().min(1, NAME_ERROR),
 });

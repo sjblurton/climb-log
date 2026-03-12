@@ -59,6 +59,11 @@ npm run build
 npm start
 ```
 
+### Swagger Docs
+
+- UI: `http://localhost:3000/docs/`
+- JSON: `http://localhost:3000/docs.json`
+
 ## API Endpoints
 
 ### Locations
