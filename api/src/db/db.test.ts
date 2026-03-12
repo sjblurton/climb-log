@@ -5,7 +5,6 @@ import path from "path";
 
 describe("Database", () => {
   const testDbPath = getTestDbPath();
-  const testInitPath = path.join(__dirname, "database.init.json");
 
   beforeEach(() => {
     vi.stubEnv("NODE_ENV", "test");
@@ -14,19 +13,26 @@ describe("Database", () => {
   afterEach(async () => {
     vi.unstubAllEnvs();
 
-    await fs.unlink(testDbPath).catch();
+    await fs.unlink(testDbPath).catch(() => undefined);
   });
 
   it("should initialize database with init data if file doesn't exist", async () => {
     const db = new Database();
     const initData = {
-      locations: [{ id: "1", name: "Test Crag" }],
+      locations: [
+        {
+          id: "1",
+          name: "Test Crag",
+          created_at: "2026-03-12T10:00:00.000Z",
+          updated_at: "2026-03-12T10:00:00.000Z",
+        },
+      ],
       crags: [],
       routes: [],
       climbLogs: [],
     };
 
-    await fs.writeFile(testInitPath, JSON.stringify(initData, null, 2));
+    await fs.writeFile(testDbPath, JSON.stringify(initData, null, 2));
 
     const result = await db.read();
     expect(result.locations).toBeDefined();
@@ -35,7 +41,14 @@ describe("Database", () => {
   it("should read database file", async () => {
     const db = new Database();
     const testData = {
-      locations: [{ id: "1", name: "Test Crag" }],
+      locations: [
+        {
+          id: "1",
+          name: "Test Crag",
+          created_at: "2026-03-12T10:00:00.000Z",
+          updated_at: "2026-03-12T10:00:00.000Z",
+        },
+      ],
       crags: [],
       routes: [],
       climbLogs: [],
@@ -51,7 +64,14 @@ describe("Database", () => {
   it("should write database file", async () => {
     const db = new Database();
     const testData = {
-      locations: [{ id: "1", name: "Test Crag" }],
+      locations: [
+        {
+          id: "1",
+          name: "Test Crag",
+          created_at: "2026-03-12T10:00:00.000Z",
+          updated_at: "2026-03-12T10:00:00.000Z",
+        },
+      ],
       crags: [],
       routes: [],
       climbLogs: [],

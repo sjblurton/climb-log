@@ -15,10 +15,13 @@ export class LocationRepository {
 
   async createLocation(name: string) {
     const db = await this.database.read();
+    const now = new Date().toISOString();
 
     const location = {
       id: `loc_${randomUUID()}`,
       name,
+      created_at: now,
+      updated_at: now,
     };
 
     db.locations.push(location);
@@ -46,6 +49,7 @@ export class LocationRepository {
     }
 
     location.name = name;
+    location.updated_at = new Date().toISOString();
     await this.database.write(db);
     return location;
   }

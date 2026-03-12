@@ -31,6 +31,14 @@ describe("Locations API", () => {
 
       expect(response.status).toBe(201);
       expect(response.body.name).toBe("The Depot Manchester");
+      expect(response.body.created_at).toBeDefined();
+      expect(new Date(response.body.created_at).toString()).not.toBe(
+        "Invalid Date",
+      );
+      expect(response.body.updated_at).toBeDefined();
+      expect(new Date(response.body.updated_at).toString()).not.toBe(
+        "Invalid Date",
+      );
     });
 
     it("should return 400 for invalid location creation", async () => {
@@ -82,6 +90,8 @@ describe("Locations API", () => {
 
       expect(getResponse.status).toBe(200);
       expect(getResponse.body.name).toBe("Test Location");
+      expect(getResponse.body.created_at).toBeDefined();
+      expect(getResponse.body.updated_at).toBeDefined();
     });
 
     it("should return 404 for invalid location ID", async () => {
@@ -112,6 +122,8 @@ describe("Locations API", () => {
         .send({ name: "Old Name" });
 
       const locationId = createResponse.body.id;
+      const createdAt = createResponse.body.created_at;
+      const originalUpdatedAt = createResponse.body.updated_at;
 
       const updateResponse = await request(app)
         .patch(`/locations/${locationId}`)
@@ -119,11 +131,20 @@ describe("Locations API", () => {
 
       expect(updateResponse.status).toBe(200);
       expect(updateResponse.body.name).toBe("New Name");
+      expect(updateResponse.body.created_at).toBe(createdAt);
+      expect(new Date(updateResponse.body.updated_at).toString()).not.toBe(
+        "Invalid Date",
+      );
+      expect(Date.parse(updateResponse.body.updated_at)).toBeGreaterThanOrEqual(
+        Date.parse(originalUpdatedAt),
+      );
 
       const getResponse = await request(app).get(`/locations/${locationId}`);
 
       expect(getResponse.status).toBe(200);
       expect(getResponse.body.name).toBe("New Name");
+      expect(getResponse.body.created_at).toBe(createdAt);
+      expect(getResponse.body.updated_at).toBe(updateResponse.body.updated_at);
     });
 
     it("should return 404 when updating non-existent location", async () => {
