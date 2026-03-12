@@ -15,7 +15,7 @@ router.post(
 );
 
 router.get("/:id", locationsController.getLocationById);
-router.put(
+router.patch(
   "/:id",
   validateBody(createUpdateLocationBodySchema),
   locationsController.updateLocation,

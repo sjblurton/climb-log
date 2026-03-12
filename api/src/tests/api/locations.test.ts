@@ -114,7 +114,7 @@ describe("Locations API", () => {
       const locationId = createResponse.body.id;
 
       const updateResponse = await request(app)
-        .put(`/locations/${locationId}`)
+        .patch(`/locations/${locationId}`)
         .send({ name: "New Name" });
 
       expect(updateResponse.status).toBe(200);
@@ -128,7 +128,7 @@ describe("Locations API", () => {
 
     it("should return 404 when updating non-existent location", async () => {
       const response = await request(app)
-        .put("/locations/non-existent-id")
+        .patch("/locations/non-existent-id")
         .send({ name: "New Name" });
 
       expect(response.status).toBe(404);
@@ -141,7 +141,7 @@ describe("Locations API", () => {
       params.append("id", "loc_456");
 
       const response = await request(app)
-        .put(`/locations/${params.toString()}`)
+        .patch(`/locations/${params.toString()}`)
         .send({ name: "New Name" });
 
       expect(response.status).toBe(404);
