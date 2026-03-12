@@ -18,13 +18,15 @@ export class CragRepository {
 
   async createCrag(data: CreateCragBody) {
     const db = await this.database.read();
+    const now = new Date().toISOString();
 
     const crag = {
       id: `crag_${randomUUID()}`,
       location_id: data.location_id,
       name: data.name,
       type: data.type,
-      created_at: new Date().toISOString(),
+      created_at: now,
+      updated_at: now,
     };
 
     db.crags.push(crag);
@@ -57,6 +59,7 @@ export class CragRepository {
     ) as Partial<CreateCragBody>;
 
     Object.assign(crag, patchData);
+    crag.updated_at = new Date().toISOString();
 
     await this.database.write(db);
     return crag;

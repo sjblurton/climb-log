@@ -40,6 +40,11 @@ describe("Crags API", () => {
       expect(new Date(response.body.created_at).toString()).not.toBe(
         "Invalid Date",
       );
+      expect(response.body.updated_at).toBeDefined();
+      expect(new Date(response.body.updated_at).toString()).not.toBe(
+        "Invalid Date",
+      );
+      expect(response.body.updated_at).toBe(response.body.created_at);
     });
 
     it("should return 400 for missing location_id", async () => {
@@ -126,6 +131,7 @@ describe("Crags API", () => {
 
       const cragId = createResponse.body.id;
       const createdAt = createResponse.body.created_at;
+      const originalUpdatedAt = createResponse.body.updated_at;
 
       const updateResponse = await request(app).patch(`/crags/${cragId}`).send({
         location_id: "loc_456",
@@ -138,6 +144,12 @@ describe("Crags API", () => {
       expect(updateResponse.body.name).toBe("New Crag");
       expect(updateResponse.body.type).toBe("indoor");
       expect(updateResponse.body.created_at).toBe(createdAt);
+      expect(new Date(updateResponse.body.updated_at).toString()).not.toBe(
+        "Invalid Date",
+      );
+      expect(Date.parse(updateResponse.body.updated_at)).toBeGreaterThanOrEqual(
+        Date.parse(originalUpdatedAt),
+      );
     });
 
     it("should partially update a crag with patch", async () => {
@@ -149,6 +161,7 @@ describe("Crags API", () => {
 
       const cragId = createResponse.body.id;
       const createdAt = createResponse.body.created_at;
+      const originalUpdatedAt = createResponse.body.updated_at;
 
       const updateResponse = await request(app).patch(`/crags/${cragId}`).send({
         name: "Renamed Crag",
@@ -159,6 +172,12 @@ describe("Crags API", () => {
       expect(updateResponse.body.name).toBe("Renamed Crag");
       expect(updateResponse.body.type).toBe("outdoor");
       expect(updateResponse.body.created_at).toBe(createdAt);
+      expect(new Date(updateResponse.body.updated_at).toString()).not.toBe(
+        "Invalid Date",
+      );
+      expect(Date.parse(updateResponse.body.updated_at)).toBeGreaterThanOrEqual(
+        Date.parse(originalUpdatedAt),
+      );
     });
 
     it("should return 404 when updating non-existent crag", async () => {

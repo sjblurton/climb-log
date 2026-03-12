@@ -21,6 +21,7 @@ const cragResponseSchema = cragSchema.meta({
     name: "Raven Tor",
     type: "outdoor",
     created_at: "2026-03-12T10:00:00.000Z",
+    updated_at: "2026-03-12T10:00:00.000Z",
   },
 });
 
@@ -33,6 +34,7 @@ const cragsResponseSchema = cragsSchema.meta({
       name: "Raven Tor",
       type: "outdoor",
       created_at: "2026-03-12T10:00:00.000Z",
+      updated_at: "2026-03-12T10:00:00.000Z",
     },
     {
       id: "crag_456",
@@ -40,6 +42,7 @@ const cragsResponseSchema = cragsSchema.meta({
       name: "The Depot Manchester",
       type: "indoor",
       created_at: "2026-03-12T11:00:00.000Z",
+      updated_at: "2026-03-12T11:30:00.000Z",
     },
   ],
 });

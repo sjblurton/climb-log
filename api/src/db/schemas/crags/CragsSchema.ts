@@ -14,11 +14,13 @@ export const cragSchema = z.object({
   name: z.string().min(1, NAME_ERROR),
   type: cragTypeSchema,
   created_at: z.string(),
+  updated_at: z.string(),
 });
 
 const cragBodySchema = cragSchema.omit({
   id: true,
   created_at: true,
+  updated_at: true,
 });
 
 export const createCragBodySchema = cragBodySchema;
